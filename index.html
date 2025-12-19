@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>音乐播放器</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- 视频背景 -->
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="mp4/白厄PV最后一幕4K无水印.mp4" type="video/mp4">
+  </video>
+
+  <div class="container">
+    <!-- 学号姓名 -->
+    <div class="info">学号：25216950323　姓名：邹震宇</div>
+
+    <!-- 黑胶唱片区域 -->
+    <div class="vinyl-container">
+      <div class="vinyl"></div>
+      <img src="img/陈奕迅-K歌之王.jpg" alt="专辑封面" class="album-cover" />
+    </div>
+
+    <!-- 歌曲信息 -->
+    <div class="song-info">
+      <h1 id="song-title">K歌之王</h1>
+      <p id="artist">陈奕迅</p>
+    </div>
+
+    <!-- 播放控制区 -->
+    <div class="controls">
+      <div class="progress-bar">
+        <div class="time">
+          <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+        </div>
+        <input type="range" id="progress" min="0" max="100" value="0" />
+      </div>
+
+      <div class="play-controls">
+        <button id="play-mode"><img src="img/mode2.png" alt="顺序播放"></button>
+        <button id="prev"><img src="img/上一首.png" alt="上一首"></button>
+        <button id="play-pause"><img src="img/继续播放.png" alt="播放"></button>
+        <button id="next"><img src="img/下一首.png" alt="下一首"></button>
+        <button id="volume-toggle"><img src="img/音量.png" alt="音量"></button>
+        <input type="range" id="volume" min="0" max="1" step="0.1" value="1" />
+      </div>
+
+      <div class="right-controls">
+        <button id="mv-btn"><img src="img/MV.png" alt="MV"></button>
+        <div class="speed-control">
+          <span id="speed-display">1.0X</span>
+          <div class="speed-dropdown">
+            <div class="speed-option" data-speed="0.5">0.5X</div>
+            <div class="speed-option" data-speed="0.75">0.75X</div>
+            <div class="speed-option" data-speed="1.0">1.0X</div>
+            <div class="speed-option" data-speed="1.25">1.25X</div>
+            <div class="speed-option" data-speed="1.5">1.5X</div>
+            <div class="speed-option" data-speed="2.0">2.0X</div>
+          </div>
+        </div>
+        <button id="list-btn"><img src="img/列表.png" alt="列表"></button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audio-player"></audio>
+
+  <!-- MV播放模态窗口 -->
+  <div id="mv-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <video id="mv-player" controls autoplay width="100%" height="100%">
+      </video>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

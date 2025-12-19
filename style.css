@@ -1,0 +1,413 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 视频背景样式 */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+body {
+  font-family: "Microsoft YaHei", sans-serif;
+  background: rgba(0, 0, 0, 0.3);
+  /* 半透明黑色背景，增强文字可读性 */
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* 保持容器的基本样式，但去掉半透明背景和边框 */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  position: relative;
+}
+
+.info {
+  font-size: 16px;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+/* 黑胶唱片 */
+.vinyl-container {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 50%;
+  background: transparent;
+  /* 去掉黑色背景 */
+  /* box-shadow: 0 0 30px rgba(0, 0, 0, 0.8); 去掉阴影 */
+  overflow: hidden;
+}
+
+.vinyl {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  /* 模拟黑胶纹路（简化版） */
+  background: radial-gradient(circle at center,
+      #111 0%, #000 10%, #111 11%, #111 20%,
+      #000 21%, #000 22%, #111 23%, #111 30%,
+      #000 31%, #000 32%, #111 33%, #111 90%,
+      #000 91%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 0.9;
+  /* 使用更完整的动画属性定义 */
+  animation-name: spin;
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+  transform-origin: center center;
+  /* 确保旋转中心正确 */
+}
+
+.vinyl.playing {
+  animation-play-state: running;
+}
+
+.album-cover.playing {
+  /* 使用transform-origin确保旋转中心正确，同时不覆盖居中定位 */
+  animation: spin 10s linear infinite;
+  transform-origin: center center;
+  /* 明确设置旋转中心，避免动画影响位置 */
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+}
+
+.album-cover {
+  width: 375px;
+  height: 375px;
+  /* 375px是500px的3/4，占据黑胶唱片的3/4区域 */
+  border-radius: 50%;
+  object-fit: cover;
+  /* 恢复cover以填充整个圆形区域 */
+  position: absolute;
+  /* 使用top/left和margin负值代替transform居中，避免与旋转动画冲突 */
+  top: 50%;
+  left: 50%;
+  margin-top: -187.5px;
+  /* 375px的一半 */
+  margin-left: -187.5px;
+  /* 375px的一半 */
+  z-index: 2;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+  border: 10px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.3);
+  /* 添加轻微背景色，避免透明区域显得突兀 */
+}
+
+/* 歌曲信息：改为靠右对齐 */
+.song-info {
+  margin: 40px 0;
+  text-align: right;
+  /* ← 关键：靠右 */
+  max-width: 500px;
+  margin-left: auto;
+  /* ← 配合靠右 */
+  margin-right: 0;
+  /* ← 不要居中 */
+}
+
+.song-info h1 {
+  font-size: 48px;
+  color: white;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.song-info p {
+  color: #ddd;
+  font-size: 32px;
+  opacity: 0.9;
+}
+
+/* 控制栏 */
+.controls {
+  margin-top: 30px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 25px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  max-width: 100%;
+  /* 让控制栏占据容器全部宽度 */
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.progress-bar {
+  flex: 2;
+  /* 增大flex值，让时间条占据更多空间 */
+  min-width: 350px;
+  /* 增大最小宽度 */
+  padding-right: 20px;
+  /* 增加右侧内边距 */
+}
+
+#progress {
+  width: 100%;
+  height: 8px;
+  /* 增大进度条高度 */
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  /* 增大圆角 */
+  cursor: pointer;
+  margin: 8px 0;
+}
+
+#progress::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  /* 增大滑块大小 */
+  height: 18px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  /* 增大阴影 */
+}
+
+.time {
+  font-size: 18px;
+  /* 增大时间字体大小 */
+  color: #eee;
+  margin-bottom: 8px;
+  display: block;
+  text-align: left;
+}
+
+.play-controls {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.play-controls button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+  padding: 5px;
+}
+
+.play-controls button img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.play-controls button:hover {
+  transform: scale(1.15);
+  color: #4CAF50;
+}
+
+#volume-toggle {
+  margin-left: 10px;
+}
+
+#volume {
+  width: 80px;
+  height: 6px;
+  /* 保持音量滑块高度不变 */
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* 右侧控制按钮样式 */
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.right-controls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+  padding: 5px;
+}
+
+.right-controls button img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* 倍速控制样式 */
+.speed-control {
+  position: relative;
+  display: inline-block;
+}
+
+#speed-display {
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+#speed-display:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.speed-dropdown {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  padding: 5px 0;
+  z-index: 1000;
+  min-width: 80px;
+}
+
+.speed-control:hover .speed-dropdown {
+  display: block;
+}
+
+.speed-option {
+  color: white;
+  font-size: 14px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.speed-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#volume::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+/* 移除重复的专辑封面旋转样式定义 */
+
+/* MV播放模态窗口样式 */
+.modal {
+  display: none;
+  /* 默认隐藏 */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow: auto;
+}
+
+.modal-content {
+  position: relative;
+  margin: 5% auto;
+  width: 90%;
+  max-width: 1200px;
+  height: 80%;
+  background-color: #000;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1001;
+  transition: color 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#mv-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
